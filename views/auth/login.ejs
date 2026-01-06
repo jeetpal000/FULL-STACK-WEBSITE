@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+
+      <%- include('../header') -%>
+      <div>
+        <form action="/login" method="POST">
+          <div>
+            <label for="email">Your Email</label>
+            <br>
+            <input type="text" name="email" id="email" />
+          </div>
+        <div>
+          <label for="password">Password</label>
+          <br>
+          <input type="text" name="password" id="password" />
+        </div>
+        <% if(errors && errors.length>0) { %> <% errors.forEach((error)=>{  %>
+        <p class="error-msg"><%=error%></p>
+        <% }) %> <%}%>
+        <div>
+
+          <label for="remember"><input type="checkbox" name="remember" />Remember me</label>
+          <button type="submit" class="btn" style="background-color: rgba(92, 92, 240, 0.708);">Login</button>
+          <button class=""><a href="/reset-password">Forget password</a></button>
+        </div>
+      </form>
+    </div>
+    <%- include("../footer") -%>
+  </div>
+  </body>
+</html>

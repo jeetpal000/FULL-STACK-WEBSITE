@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section class="main">
+      <div class="links">
+        <% links.forEach((link) => { %>
+        <div class="link">
+          <p class="input-link">
+            <%= link.longurl.length > 30 ? link.longurl.slice(0, 30) + "......"
+            : link.longurl %>
+          </p>
+          <p class="shorten-link">
+            <a href="/redirect/<%= link.shortcode %>" target="_blank">
+              <%= origin %>/<%= link.shortcode %>
+            </a>
+            <span class="remove-btn">
+              <a href="/edit/<%=link.id%>">edit</a>
+            </span>
+            <span
+              class="copy-btn"
+              id="copy-btn"
+              data-link="<%= origin %>/<%= link.shortcode %>"
+            >
+              Copy
+            </span>
+            <span class="remove-btn">
+              <a href="/delete/<%=link.id%>">delete</a>
+            </span>
+          </p>
+        </div>
+        <% }) %>
+      </div>
+      <div class="advance-statistics">
+        <h1>Advance Statistics</h1>
+        <p>
+          Track how your links are performing across the with <br />
+          our advance statistics dashboard.
+        </p>
+        <div class="advance-statistics-details">
+          <div class="brand-rocgnition">
+            <img src="../assets/icon-brand-recognition.svg" alt="" />
+            <h2>Brand Recognition</h2>
+            <p>
+              Boost your brand recognition with each click, Generic links don't
+              mean a thing. Branded links help instil confidence in your
+              content.
+            </p>
+          </div>
+          <div class="detailed-records">
+            <img src="../assets/icon-detailed-records.svg" alt="" />
+            <h2>Detailed Records</h2>
+            <p>
+              Gain insights into who is clicking your links. Knowing when and
+              where people engage with your content help inform better decision
+            </p>
+          </div>
+          <div class="fully-customize">
+            <img src="../assets/icon-fully-customizable.svg" alt="" />
+            <h2>Fully Customizable</h2>
+            <p>
+              Improve brand awareness and content discovery through customizable
+              links. superchanging audience engagement.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="boost">
+      <h1> Boost your links today </h1>
+      <button class="get-started">Get Started</button>
+    </section>
+
+    <script>
+      document.querySelectorAll(".copy-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const getValue = btn.getAttribute("data-link");
+          navigator.clipboard
+            .writeText(getValue)
+            .then(() => {
+              btn.textContent = "copied";
+              setTimeout(() => {
+                btn.textContent = "Copy";
+              }, 2000);
+            })
+            .catch((err) => console.error("Failed to copy", err));
+        });
+      });
+    </script>
+  </body>
+</html>

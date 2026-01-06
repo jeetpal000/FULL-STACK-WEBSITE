@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <form
+        class="input-section"
+        id="input-section"
+        action="/shorten"
+        method="POST"
+      >
+        <div class="input-field">
+          <input
+            id="longurl"
+            type="url"
+            name="longurl"
+            placeholder="Shorten a link here..."
+            required
+          />
+          <span class="clear-btn" id="clear-optional">×</span>
+        </div>
+        <div class="input-field">
+          <input
+            type="text"
+            name="shortcode"
+            placeholder="What you want....."
+          />
+        </div>
+        <button class="shorten-btn" type="submit">Shorten It!</button>
+        <p class="alert">Please add a link</p>
+         <% if(errors && errors.length>0) { %> 
+        <p class="error-msg"><%=errors%></p>
+          <%}%>
+      </form>
+</body>
+</html>

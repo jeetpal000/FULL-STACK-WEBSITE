@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EDIT PROFILE</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container">
+   <%- include('../header.ejs') %>
+      <form class="input-section" id="input-section" action="edit-profile" method="POST">
+        <div class="input-field">
+          <input
+            type="text"
+            name="username"
+            value="<%=name%>"
+            placeholder="Shorten a link here..."
+            required
+          />
+          <span class="clear-btn" id="clear-optional">×</span>
+        </div>
+        
+        <button class="shorten-btn" type="submit">Edit</button>
+      </form>
+      <%- include('../footer.ejs') %>
+    </div>
+  </body>
+</html>

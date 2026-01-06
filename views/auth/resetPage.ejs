@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EDIT PASSWORD</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <%- include('../header.ejs') %>
+      <% if(formSubmitted) {%> 
+        <p>If the email that you are given us is correct, we have sent email to reset password to your email.</p>
+        <%} else {%> 
+      <form
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-bottom: 40px;
+          width: 70%;
+        "
+        class="input-section"
+        id="input-section"
+        action="reset-password"
+        method="POST"
+      >
+        <h1>Reset password</h1>
+        <div class="input-field">
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email....."
+            required
+          />
+        </div>
+        <% if(errors && errors.length>0) { %> <% errors.forEach((error)=>{%>
+        <p class="error-msg"><%=error%></p>
+        <% }) %> <%}%> <%if(success && success.length > 0){ %> <%
+        success.forEach((msg)=>{ %>
+        <p
+          class="success-msg"
+          id="success-msg"
+          style="
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: opacity 2s ease-out;
+          "
+        >
+          <%=msg%>
+        </p>
+        <%})%> <%}%>
+
+        <button class="shorten-btn" type="submit">Reset</button>
+      </form>
+        <%}%>
+      <%- include('../footer.ejs') %>
+    </div>
+  </body>
+  <script>
+    setTimeout(() => {
+      const msg = document.getElementById("success-msg");
+      if (msg) {
+        msg.style.opacity = "0";
+        setTimeout(() => msg.remove(), 1000);
+      }
+    }, 3000);
+  </script>
+</html>

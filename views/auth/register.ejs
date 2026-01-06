@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REGISTER</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+
+      <%- include('../header') -%>
+      <h1>Register page</h1>
+      <div>
+        <form action="/register" method="POST">
+        <div>
+          <label for="username">Your name</label>
+          <br>
+          <input type="text" name="username" id="username" />
+        </div>
+        <div>
+          <label for="email">Your Email</label>
+          <br>
+          <input type="email" name="email" id="email" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <br>
+          <input type="text" name="password" id="password" />
+        </div>
+        <% if(errors && errors.length>0) { %> <% errors.forEach((error)=>{%>
+          <p class="error-msg"><%=error%></p>
+          <% }) %> <%}%>
+
+        <label for="remember"
+          ><input type="checkbox" name="remember" id="remember" />I agree all
+          statements i terms of services</label
+        >
+        <button
+        type="submit"
+        class="btn"
+        style="background-color: rgba(139, 139, 246, 0.766)"
+        >
+        Register
+      </button>
+    </form>
+  </div>
+    <%- include('../footer') -%>
+  </div>
+  </body>
+  </html>

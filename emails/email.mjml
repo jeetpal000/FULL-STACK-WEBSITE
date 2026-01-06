@@ -1,0 +1,83 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-text font-family="Inter, Arial, sans-serif" color="#1f2937" />
+      <mj-button font-family="Inter, Arial, sans-serif" background-color="#2563eb" color="#ffffff" border-radius="8px" />
+    </mj-attributes>
+
+    <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+
+    <mj-style inline="inline">
+      .code-box {
+        font-family: monospace;
+        font-size: 22px;
+        letter-spacing: 2px;
+        color: #111827;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 16px 20px;
+        text-align: center;
+      }
+      .muted {
+        color: #6b7280;
+        font-size: 14px;
+      }
+      .brand {
+        font-weight: 700;
+        color: #111827;
+      }
+      .footer-link {
+        color: #2563eb;
+        text-decoration: underline;
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#f8fafc">
+    <mj-section>
+      <mj-column>
+        <mj-text align="center" font-size="22px" font-weight="700" css-class="brand">
+          Verify Your Email Address
+        </mj-text>
+        <mj-text align="center" css-class="muted">
+          Thanks for signing up! Please verify your email to complete your registration.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="24px">
+      <mj-column>
+        <mj-text font-weight="600">Your verification code:</mj-text>
+        <mj-text css-class="code-box">
+          <%=token %>
+        </mj-text>
+
+        <mj-spacer height="16px" />
+
+        <mj-text css-class="muted">
+          Alternatively, you can directly verify your account by clicking the button below:
+        </mj-text>
+
+        <mj-button href= "<%=link %>" padding="12px 0" font-weight="600">
+          Verify My Email
+        </mj-button>
+
+        <mj-spacer height="8px" />
+
+        <mj-text align="center" css-class="muted">
+          If you didn’t sign up for this account, you can safely ignore this email.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-text align="center" css-class="muted">
+          Token expires in 24 hours. Need a new one?
+          <a class="footer-link" href="{{resendLink}}">Resend verification link</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
