@@ -31,25 +31,56 @@ const sessionSchema = new mongoose.Schema({
         required: true,
     }
 }, {timestamps: true})
+// const userSchema = new mongoose.Schema({
+//     username: {
+//         type: String,
+//         required: true,
+//     },
+//     email: {
+//         type: String,
+//         unique: true,
+//         required: true,
+//     },
+//     password: {
+//         type: String,
+//         required: true,  
+//     },
+//     isEmailValid: {
+//         type: Boolean,
+//         required: true,
+//     }
+// }, {timestamps:true});
+
+// const oauthAccountUser = new mongoose.Schema({
+//     // userId: {
+//     //     type: String,
+//     //     required: false,
+//     // },
+//     email:{
+//         type: String,
+//         unique: true,
+//     },
+//     googleId: {
+//         type: String,
+//         unique: true,
+//         sparse: true,
+//     },
+//     provider: {
+//         type: String,
+//         enum: ["google", "github"]
+//     },
+
+// }, {timestamps: true});
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        unique: true,
-        required: true,
-    },
-    password: {
-        type: String,
-        required: true,  
-    },
-    isEmailValid: {
-        type: Boolean,
-        required: true,
-    }
-}, {timestamps:true})
+  name: String,
+  email: { type: String, unique: true },
+  password: { type: String, default: null }, // null if Google login
+  googleId: { type: String, unique: true, sparse: true },
+  provider: { type: String, enum: ["local", "google"], default: "local" },
+  isEmailValid: {type: Boolean, required: true}
+}, { timestamps: true });
+
+
 
 const isEmailValid = new mongoose.Schema({
     email: {
@@ -91,3 +122,4 @@ export const User = new mongoose.model("User", userSchema);
 export const UrlShortener = new mongoose.model("UrlShortener", urlSchema);
 export const sessionSchemaAuth = new mongoose.model("sessionSchema", sessionSchema);
 export const resetPasswordToken = new mongoose.model("resetPasswordToken", passwordResetTokens);
+// export const oauthUserAccount = new mongoose.model("oauthUserAccount", oauthAccountUser)

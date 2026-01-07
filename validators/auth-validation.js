@@ -10,7 +10,7 @@ export const loginUserSchema = z.object({
 });
 
 export const regitserUserSchema = loginUserSchema.extend({
-  username: z
+  name: z
     .string()
     .trim()
     .min(3, { message: "name should be greater than 3 char" })
