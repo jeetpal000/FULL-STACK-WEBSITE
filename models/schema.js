@@ -74,6 +74,7 @@ const sessionSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
+  avatar: {type: String, },
   password: { type: String, default: null }, // null if Google login
   googleId: { type: String, unique: true, sparse: true },
   provider: { type: String, enum: ["local", "google"], default: "local" },

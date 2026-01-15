@@ -44,7 +44,7 @@ export const getLoginPage = (req, res) => {
 
 export const postRegistration = async (req, res) => {
   const { data, error } = regitserUserSchema.safeParse(req.body);
-  console.log("error", error, "data", data)
+  console.log("error", error, "data", data);
   if (error) {
     const zodMsg = error.issues[0].message;
     req.flash("errors", zodMsg);
@@ -122,7 +122,10 @@ export const postLogin = async (req, res) => {
 
     // If user exists but registered via Google (password = null)
     if (!existUser.password) {
-      req.flash("errors", "This account is linked with Google. Please login with Google.");
+      req.flash(
+        "errors",
+        "This account is linked with Google. Please login with Google."
+      );
       return res.redirect("/login");
     }
 
@@ -148,7 +151,10 @@ export const postLogin = async (req, res) => {
 
     const refreshToken = createRefreshToken(session._id);
 
-    const baseConfig = { httpOnly: true, secure: process.env.NODE_ENV === "production" };
+    const baseConfig = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    };
 
     res.cookie("access_token", accessToken, baseConfig);
     res.cookie("refresh_token", refreshToken, baseConfig);
@@ -159,7 +165,6 @@ export const postLogin = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 
 export const getMe = (req, res) => {
   if (!req.user) return res.send("you are not logged in");
@@ -213,6 +218,7 @@ export const getProfilePage = async (req, res) => {
       createdAt: user.createdAt,
       isVerified: user.isEmailValid,
       links: userShortLinks,
+      avatar: user.avatar
     },
   });
 };
@@ -260,24 +266,27 @@ export const editProfileNamePage = async (req, res) => {
 
   const user = await User.findById(req.user.id);
 
-  return res.render("auth/edit-profile-page", { name: user.name });
+  return res.render("auth/edit-profile-page", { name: user.name, avatar: user.avatar });
 };
 
 export const editProfileName = async (req, res) => {
   if (!req.user) return res.redirect("/");
 
   // console.log("req.user:", req.user);
-  // console.log("req.body:", req.body);
+  // console.log("req.body:", req.body);  
 
-  const { name } = req.body;
+  const name  = req.body?.name;
 
   try {
+    
+    const fileUrl = req.file ? `uploads/avatar/${req.file.filename}` :undefined;
     await User.findOneAndUpdate(
       { email: req.user.email },
-      { name },
+      { name ,
+      avatar: fileUrl},
       { new: true }
     );
-    res.redirect("/profile");
+    res.redirect("/profile"); 
   } catch (error) {
     console.error("Error updating username: ", error);
     res.status(500).send("Something went wrong");
@@ -413,17 +422,19 @@ export const getForgotPassword = async (req, res) => {
   user.password = newHashPassword;
   await user.save();
 
-  // 5. Delete token   
+  // 5. Delete token
 
-  await resetPasswordToken.findOneAndDelete({ tokenHash: passwordResetData.tokenHash });
+  await resetPasswordToken.findOneAndDelete({
+    tokenHash: passwordResetData.tokenHash,
+  });
 
   req.flash("success", "Your password has been changed successfully!");
   return res.redirect("/login");
 };
 
 // getGoogleLoginPage
-export const getGoogleLoginPage = async (req, res)=>{
-  if(req.user) return res.redirect("/");
+export const getGoogleLoginPage = async (req, res) => {
+  if (req.user) return res.redirect("/");
   const state = generateState();
   const codeVerifier = generateCodeVerifier();
   const url = google.createAuthorizationURL(state, codeVerifier, [
@@ -432,22 +443,25 @@ export const getGoogleLoginPage = async (req, res)=>{
     "email",
   ]);
   const cookieConfig = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production" ? true: false, // dev mein false
-  maxAge: 10 * 60 * 1000,
-  sameSite: "lax"
-};
-
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production" ? true : false, // dev mein false
+    maxAge: 10 * 60 * 1000,
+    sameSite: "lax",
+  };
 
   res.cookie("google_oauth_state", state, cookieConfig);
   res.cookie("google_code_verifier", codeVerifier, cookieConfig);
   res.redirect(url.toString());
-}
+};
 
 // getGoogleLoginCallback
 export const getGoogleLoginCallback = async (req, res) => {
+  console.log("hit route")
   const { code, state } = req.query;
-  const { google_oauth_state: storedState, google_code_verifier: codeVerifier } = req.cookies;
+  const {
+    google_oauth_state: storedState,
+    google_code_verifier: codeVerifier,
+  } = req.cookies;
 
   if (!code || !state || state !== storedState) {
     return res.send("❌ Invalid login attempt");

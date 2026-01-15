@@ -33,7 +33,11 @@
         <p style="text-align: center">You are not logged in</p>
         <% } %>
         <div class="details">
-          <div class="name"><%=user.name.charAt(0).toUpperCase()%></div>
+          <% if(user.avatar) {%>
+            <img src="<%=user.avatar%>" alt="Profile" width="100" height="100" style="border-radius: 100%;">
+            <%}else{%>
+              <div class="name"><%=user.name.charAt(0).toUpperCase()%></div>
+          <%}%>
           <div>
             <p><%= user.name.toUpperCase() %></p>
             <p><%= user.email %></p>

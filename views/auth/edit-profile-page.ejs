@@ -9,7 +9,19 @@
   <body>
     <div class="container">
    <%- include('../header.ejs') %>
-      <form class="input-section" id="input-section" action="edit-profile" method="POST">
+      <form class="input-section url-form" id="input-section" action="edit-profile" method="POST"  id="url-form" enctype="multipart/form-data">
+
+        <% if(avatar) { %>
+          <img src="<%=avatar%>" alt="Current profile picture" width="150" height="150" > 
+        <% } else { %>
+          <img src="" alt="preview" style="display: none">
+        <%}%>
+        <div>
+          <input type="file" name="avatar" id="" accept="image/*">
+          <% if(avatar) {%>
+            <button type="button">remove</button>
+          <%}%> 
+        </div>
         <div class="input-field">
           <input
             type="text"
