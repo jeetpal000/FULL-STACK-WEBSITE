@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PROFILE</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <%- include('../header') -%>
+      <h1 style="text-align: center">Your profile page</h1>
+      <main
+        style="
+          box-shadow: 0px 0px 5px #9f9f9f;
+          max-width: 650px;
+          margin: 0 auto;
+        "
+      >
+        <% if(user) { %>
+        <p
+          style="
+            text-align: left;
+            background-color: rgba(156, 251, 156, 0.517);
+            color: green;
+            margin-bottom: -10px;
+            padding-bottom: 20px;
+          "
+        >
+          You are logged In
+        </p>
+        <%} else { %>
+        <p style="text-align: center">You are not logged in</p>
+        <% } %>
+        <div class="details">
+          <% if(user.avatar) {%>
+            <img src="<%=user.avatar%>" alt="Profile" width="100" height="100" style="border-radius: 100%;">
+            <%}else{%>
+              <div class="name"><%=user.name.charAt(0).toUpperCase()%></div>
+          <%}%>
+          <div>
+            <p><%= user.name.toUpperCase() %></p>
+            <p><%= user.email %></p>
+            <p>Member since <%= user.createdAt.toLocaleDateString() %></p>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            max-width: 650px;
+            padding: 10px;
+            margin: 0 auto;
+            border-bottom: 2px solid rgba(182, 180, 180, 0.663);
+          "
+        >
+          <div class="total-links">
+            <p><%= user.links.length %></p>
+            <p style="color: gray">links created</p>
+          </div>
+          <div>
+            <p>0</p>
+            <p style="color: gray">total clicks</p>
+          </div>
+          <div>
+            <p>today</p>
+            <p style="color: gray">Last Active</p>
+          </div>
+        </div>
+        <div style="max-width: 650px; padding: 10px">
+          <p>
+            Email verification:
+            <span>
+              <% if (user.isVerified) { %>
+              <span style="color: rgb(9, 186, 9); font-weight: 700"
+                >verified✅</span
+              >
+              <% } else { %>
+              <span style="color: red; font-weight: 900">not verified❌</span>
+              <% } %>
+            </span>
+
+            &nbsp; <button class="btn"><a href="verify-email">Vrify Now</a></button>
+          </p>
+        </div>
+        <div class="" style="display: flex; justify-content: space-between;">
+          <div>
+            <button class="btn"><a href="/edit-profile">edit</a></button>
+          </div>
+          <div>
+            <button class="btn"><a href="/change-password">change password</a></button>
+          </div>
+        </div>
+      </main>
+
+      <%- include('../footer') -%>
+    </div>
+  </body>
+</html>
