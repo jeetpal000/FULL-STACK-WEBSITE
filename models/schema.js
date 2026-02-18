@@ -30,7 +30,8 @@ const sessionSchema = new mongoose.Schema({
         type: String,
         required: true,
     }
-}, {timestamps: true})
+}, {timestamps: true});
+
 // const userSchema = new mongoose.Schema({
 //     username: {
 //         type: String,
@@ -75,10 +76,10 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   avatar: {type: String, },
-  password: { type: String, default: null }, // null if Google login
+  password: { type: String, default: null }, 
   googleId: { type: String, unique: true, sparse: true },
   provider: { type: String, enum: ["local", "google"], default: "local" },
-  isEmailValid: {type: Boolean, required: true}
+  isEmailValid: {type: Boolean, required: true},
 }, { timestamps: true });
 
 

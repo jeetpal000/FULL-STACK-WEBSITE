@@ -444,7 +444,7 @@ export const getGoogleLoginPage = async (req, res) => {
   ]);
   const cookieConfig = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production" ? true : false, // dev mein false
+    secure: false, // dev mein false
     maxAge: 10 * 60 * 1000,
     sameSite: "lax",
   };
@@ -458,6 +458,7 @@ export const getGoogleLoginPage = async (req, res) => {
 export const getGoogleLoginCallback = async (req, res) => {
   console.log("hit route")
   const { code, state } = req.query;
+  console.log(req.query)
   const {
     google_oauth_state: storedState,
     google_code_verifier: codeVerifier,
@@ -476,29 +477,54 @@ export const getGoogleLoginCallback = async (req, res) => {
   }
 
   const claims = decodeIdToken(tokens.idToken());
-  const { sub: googleUserId, name, email } = claims;
+  const { sub: googleUserId, name, email, picture } = claims;
+  console.log(claims)
+  let newUser = await User.findOne({ email });
 
-  let user = await User.findOne({ email });
-
-  if (!user) {
+  if (!newUser) {
     // Auto‑create user if not exist
-    user = await User.create({
+    newUser = await User.create({
       name,
       email,
       password: null,
       googleId: googleUserId,
       provider: "google",
       isEmailValid: true,
+      avatar: picture
     });
-  } else if (!user.googleId) {
+  } else if (newUser) {
     // Link existing local account with Google
-    user.googleId = googleUserId;
-    user.provider = "google";
-    await user.save();
+    newUser.googleId = googleUserId;
+    newUser.provider = "google";
+    newUser.avatar = picture
+    newUser.isEmailValid = true
+    await newUser.save();
   }
 
+
+   // ✅ Create session for new user
+    const session = await createSession(newUser._id, {
+      ip: req.clientIp,
+      userAgent: req.headers["user-agent"],
+    });
+      // ✅ Generate tokens
+    const accessToken = createAccessToken({
+      id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+      sessionId: session._id,
+    });
+    const refreshToken = createRefreshToken(session._id.toString());
+
+    const baseConfig = { httpOnly: true, secure: true };
+
+    // ✅ Set cookies
+    res.cookie("access_token", accessToken, baseConfig);
+    res.cookie("refresh_token", refreshToken, baseConfig);
+
+
   // Set session
-  req.session.userId = user._id;
+  // req.session.userId = user._id;
 
   // Redirect to home
   res.redirect("/");
