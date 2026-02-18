@@ -444,7 +444,7 @@ export const getGoogleLoginPage = async (req, res) => {
   ]);
   const cookieConfig = {
     httpOnly: true,
-    secure: false, // dev mein false
+    secure: true, 
     maxAge: 10 * 60 * 1000,
     sameSite: "lax",
   };
@@ -516,7 +516,7 @@ export const getGoogleLoginCallback = async (req, res) => {
     });
     const refreshToken = createRefreshToken(session._id.toString());
 
-    const baseConfig = { httpOnly: true, secure: true };
+    const baseConfig = { httpOnly: true,  secure: true };
 
     // ✅ Set cookies
     res.cookie("access_token", accessToken, baseConfig);
