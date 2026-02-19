@@ -2,8 +2,8 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: cursive;
   font-size: 18px;
+  font-family: Roboto;
 }
 html, body{
   scroll-behavior: smooth;
@@ -414,6 +414,12 @@ html, body{
   .brand-rocgnition{
     margin-top: 30px;
   }
+  .input-field{
+  width:90%;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  /* position: relative; */
+}
 }
 
 @media screen and (max-width: 770px){
@@ -468,11 +474,16 @@ html, body{
       padding: 2rem 40px;
     }
     .footer{
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+     display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      margin: 0 auto;
     }
-
+    .wide{
+      grid-column: 1/-1;
+      margin: 0 auto;
+      padding-bottom: 0px;
+    }
 }
 
 .error-msg{

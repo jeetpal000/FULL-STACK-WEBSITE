@@ -38,7 +38,7 @@
             <%}else{%>
               <div class="name"><%=user.name.charAt(0).toUpperCase()%></div>
           <%}%>
-          <div>
+          <div style="display: flex; flex-direction: column; gap: 10px; overflow: hidden;">
             <p><%= user.name.toUpperCase() %></p>
             <p><%= user.email %></p>
             <p>Member since <%= user.createdAt.toLocaleDateString() %></p>
