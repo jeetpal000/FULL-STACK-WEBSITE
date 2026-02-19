@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import ejs from "ejs";
 import mjml2html from "mjml";
-import fs from "fs/promises"
+import fs from "fs/promises";
 
 export const hashPassword = async (password) => {
   return await argon.hash(password);

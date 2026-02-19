@@ -1,3 +1,4 @@
+
 import {
   isValidEmail,
   // oauthUserAccount,
@@ -48,7 +49,6 @@ export const postRegistration = async (req, res) => {
   if (error) {
     const zodMsg = error.issues[0].message;
     req.flash("errors", zodMsg);
-
     return res.redirect("/register");
   }
 
@@ -86,7 +86,7 @@ export const postRegistration = async (req, res) => {
     });
     const refreshToken = createRefreshToken(session._id.toString());
 
-    const baseConfig = { httpOnly: true, secure: true };
+    const baseConfig = { httpOnly: true, secure: true, sameSite: "lax", maxAge: 30*24*60*60*100 };
 
     // ✅ Set cookies
     res.cookie("access_token", accessToken, baseConfig);
@@ -153,7 +153,9 @@ export const postLogin = async (req, res) => {
 
     const baseConfig = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
+      sameSite: "lax",
+      maxAge: 30*24*60*60*1000
     };
 
     res.cookie("access_token", accessToken, baseConfig);
@@ -516,7 +518,7 @@ export const getGoogleLoginCallback = async (req, res) => {
     });
     const refreshToken = createRefreshToken(session._id.toString());
 
-    const baseConfig = { httpOnly: true,  secure: true };
+    const baseConfig = { httpOnly: true,  secure: true, sameSite: "lax", maxAge: 15*24*60*60*1000 };
 
     // ✅ Set cookies
     res.cookie("access_token", accessToken, baseConfig);
